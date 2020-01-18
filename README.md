@@ -4,7 +4,7 @@ The aim of this project was to do a descriptive analysis of the linguistic data 
 
 The Pangloss Collection is a database of media in under-documented languages. One type of data Pangloss has are transcripted texts, with their gloses (per word, per morphem, or both) and with a translation in another language (English, French...). The "problem" with this kind of data, though, is that because different researches do the work, it is difficult to have unified gloses and translation. The ultimate goal of the project I have been working on, it to create a tool that would permit unify all those gloses in order for linguists to compare different languages. This bunch of code is the beginning of this project: descriptive analysis of the dataset to see how does it look like, before gettnig into the creation of the tool itself.
 
-## Table of Contents
+#### Table of Contents
 
 * [Grabbing the Data](#data)
 * [First Parsing](#parse)
@@ -51,10 +51,7 @@ nb_lang = data["lang"].nunique()
 # list of languages
 list_name_lang = data["lang"].unique() 
 ```
-
-
-
-to grab the following informations for each language:
+Then, I proceeded to look more into the gloses themselves, grabbing the following informations for each language:
 * Its gloses-per-word
 * Its gloses-per-morphem
 * The number of times each glose has been used in each language
@@ -73,10 +70,15 @@ def used_glosses(gloses, data):
                 used_gloss[glose_list].append(row["lang"])
     return(used_gloss)
 ```
-Then, I applied this function
+Then, I applied this function to **"glose_word"** and to **"glose_morphem"** and saved the data in another file (*gloss.pkl*), so it would be easier to treat afterwards:
+```python
+import pickle
+
+used_gloss_morphem= used_glosses("glose_morphem", data)
+used_gloss_word= used_glosses("glose_word", data)
+pickle.dump((used_gloss_word, used_gloss_morphem), open("gloss.pkl", "wb"))
+```
+## <a name="gloss"></a>Glosses descriptive analysis
+
 
 My project will be about linguistic data. From a json, parsing the data we are interested in and performing informational statistics + creating new documents to store this data.
-
-Linguistic data is of the following form: target-language-sentences, traduction-into-other-languages, glose-by-morpheme, glose-by-word, parsed-morphemes, parsed-words.
-
-#Still have to concrete with my internship tutor.
