@@ -6,14 +6,32 @@ The Pangloss Collection is a database of media in under-documented languages. On
 
 ## Table of Contents
 
-## Getting to know the dataset, the big picture.
+* [Grabbing the Data](#data)
+* [First Parsing](#parse)
+* [Bibliography](#bibliography)
+* [What I learned from this course](#learned)
 
-The ressorces I used for these descriptive analysis were, for each language:
+## <a name="data"></a>Grabbing the data
+The data of The Pangloss Collection has been extracted from diverse XML files and recorded in a JSON (*pangloss.json*) in the form of a list of dictionnaries as the following:
+```python
+{"lang": "tvk", "src": "Napol goni transleta tei .", "en": "I work as a translator", "bi": "mi wok olsem wan translator", "tokenized_src_morphem": ["na", "pol", "goni", "transleta", "tei"], "glose_morphem": ["1s.nfut", "work", "3s.be_like.ind", "translator", "one"]}
+```
+Where: 
+* "lang" represents the code of the sampled langue
+* "src", the transcripted sentence
+* "en"/"bi"/"fr"..., the languages in which the source has been translaetd in
+* "tokenized_src_morphem", the token morphems present in the source
+* "glose_morphem", the glose for each one of this morphems
+* "tokenized_src_word", the token words present in the source *(Not present in this example)*
+* "glose_word", the glose for each one of this words *(Not present in this example)*
+
+This file has been the one used for the following analysis. 
+
+## <a name="parse"></a>First Parsing
+For the first steps of the parsing, I wanted to grab the following informations for each language:
 * Its gloses-per-word
-* Its words
 * Its gloses-per-morphem
-* Its morphems
-* The languages each language has been translated in
+* The number of times each glose has been used in each language
 
 My project will be about linguistic data. From a json, parsing the data we are interested in and performing informational statistics + creating new documents to store this data.
 
