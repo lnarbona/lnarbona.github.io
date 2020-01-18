@@ -1,4 +1,4 @@
-# Desciptive analysis from PANGLOSS data 
+# Desciptive analysis from The Pangloss Collection data 
 
 The aim of this project was to do a descriptive analysis of the linguistic data acquired in the [Pangloss Collection](https://pangloss.cnrs.fr/index_en.htm "PANGLOSS website"), to be able to create a tool that would group all glosses by type.
 
@@ -8,6 +8,7 @@ The Pangloss Collection is a database of media in under-documented languages. On
 
 * [Grabbing the Data](#data)
 * [First Parsing](#parse)
+* [Glosses descriptive analysis](#gloss)
 * [Bibliography](#bibliography)
 * [What I learned from this course](#learned)
 
@@ -79,6 +80,114 @@ used_gloss_word= used_glosses("glose_word", data)
 pickle.dump((used_gloss_word, used_gloss_morphem), open("gloss.pkl", "wb"))
 ```
 ## <a name="gloss"></a>Glosses descriptive analysis
+Once I had the new file, created a new function that would convert my .pkl to a list of all the present gloses in the dataset and BLAHBLAH
+```python
+def from_data_to_list(pickledata, num):
+    data = pickledata[num]
+    del(data[None])
+    biglist = []
+    for key in data:
+        list=[key, len(data[key])]
+        biglist.append(list)
+    sorted_biglist = sorted(biglist, key=itemgetter(1), reverse = True)
+    return(sorted_biglist)
+```
+To have an overall look of the data in glosses we had and their distribution, I created a function to make and save graphs of:
+* The first 10 gloses
+* The middle 10 gloses
+* The last 10 gloses
+* The first 100 gloses
+* The middle 100 gloses
+* The last 100 gloses
+```python
+import pickle
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
+from operator import itemgetter
+from collections import defaultdict
 
+def make_graphs(pickledata, num,type):
+    sorted_biglist = from_data_to_list(pickledata,num)
 
-My project will be about linguistic data. From a json, parsing the data we are interested in and performing informational statistics + creating new documents to store this data.
+    #First 10
+    first10 = sorted_biglist[:10]
+    labels, ys = zip(*first10)
+    plt.figure(figsize=(20, 15))  # width:10, height:8
+    xs = np.arange(len(labels))
+    width = 1
+    plt.bar(xs, ys, width, align='center')
+    plt.xticks(xs, labels, rotation=90, FontProperties=ChineseFont) #Replace default x-ticks with xs, then replace xs with labels
+    plt.savefig('first_10_{}.png'.format(type))
+
+    #Middle 10
+    num = int(len(sorted_biglist)/2)
+    middle10 = sorted_biglist[num-5:num+5]
+    labels, ys = zip(*middle10)
+    plt.figure(figsize=(20, 15))  # width:10, height:8
+    xs = np.arange(len(labels))
+    width = 1
+    plt.bar(xs, ys, width, align='center')
+    plt.xticks(xs, labels, rotation=90, FontProperties=ChineseFont) #Replace default x-ticks with xs, then replace xs with labels
+    plt.savefig('middle_10_{}.png'.format(type))
+
+    #Last 10
+    last10 = sorted_biglist[-10:]
+    labels, ys = zip(*last10)
+    plt.figure(figsize=(20, 15))  # width:10, height:8
+    xs = np.arange(len(labels))
+    width = 1
+    plt.bar(xs, ys, width, align='center')
+    plt.xticks(xs, labels, rotation=90, FontProperties=ChineseFont) #Replace default x-ticks with xs, then replace xs with labels
+    plt.savefig('last_10_{}.png'.format(type))
+
+    #First 100
+    first100 = sorted_biglist[:100]
+    labels, ys = zip(*first100)
+    plt.figure(figsize=(20, 15))  # width:10, height:8
+    xs = np.arange(len(labels))
+    width = 1
+    plt.bar(xs, ys, width, align='center')
+    plt.xticks(xs, labels, rotation=90, FontProperties=ChineseFont) #Replace default x-ticks with xs, then replace xs with labels
+    plt.savefig('first_100_{}.png'.format(type))
+
+    #Middle 100
+    num = int(len(sorted_biglist)/2)
+    middle100 = sorted_biglist[num-50:num+50]
+    labels, ys = zip(*middle100)
+    plt.figure(figsize=(20, 15))  # width:10, height:8
+    xs = np.arange(len(labels))
+    width = 1
+    plt.bar(xs, ys, width, align='center')
+    plt.xticks(xs, labels, rotation=90, FontProperties=ChineseFont) #Replace default x-ticks with xs, then replace xs with labels
+    plt.savefig('middle_100_{}.png'.format(type))
+
+    #Last 100
+    last10 = sorted_biglist[-100:]
+    labels, ys = zip(*last10)
+    plt.figure(figsize=(20, 15))  # width:10, height:8
+    xs = np.arange(len(labels))
+    width = 1
+    rwidth = 0.5
+    plt.bar(xs, ys, width, align='center')
+    plt.xticks(xs, labels, rotation=90, FontProperties=ChineseFont) #Replace default x-ticks with xs, then replace xs with labels
+    plt.savefig('last_100_{}.png'.format(type))
+```
+In order to run this function, I wrote the following code:
+```python
+#Graph for words:
+#make_graphs(pickledata,0,"words")
+
+#Graph for morphemes:
+#make_graphs(pickledata,1,"morphemes")
+```
+
+Finally, I decided also to look 
+
+```python
+#Graph for words:
+#make_graphs(pickledata,0,"words")
+
+#Graph for morphemes:
+#make_graphs(pickledata,1,"morphemes")
+```
