@@ -17,21 +17,33 @@ The data of The Pangloss Collection has been extracted from diverse XML files an
 {"lang": "tvk", "src": "Napol goni transleta tei .", "en": "I work as a translator", "bi": "mi wok olsem wan translator", "tokenized_src_morphem": ["na", "pol", "goni", "transleta", "tei"], "glose_morphem": ["1s.nfut", "work", "3s.be_like.ind", "translator", "one"]}
 ```
 Where: 
-* "lang" represents the code of the sampled langue
-* "src", the transcripted sentence
-* "en"/"bi"/"fr"..., the languages in which the source has been translaetd in
-* "tokenized_src_morphem", the token morphems present in the source
-* "glose_morphem", the glose for each one of this morphems
-* "tokenized_src_word", the token words present in the source *(Not present in this example)*
-* "glose_word", the glose for each one of this words *(Not present in this example)*
+* **"lang"** represents the code of the sampled langue
+* **"src"**, the transcripted sentence
+* **"en"**/**"bi"**/**"fr"**..., the languages in which the source has been translaetd in
+* **"tokenized_src_morphem"**, the token morphems present in the source
+* **"glose_morphem"**, the glose for each one of this morphems
+* **"tokenized_src_word"**, the token words present in the source *(Not present in this example)*
+* **"glose_word"**, the glose for each one of this words *(Not present in this example)*
 
-This file has been the one used for the following analysis. 
+This file has been the one used for the ensuing analysis. 
 
 ## <a name="parse"></a>First Parsing
 For the first steps of the parsing, I wanted to grab the following informations for each language:
 * Its gloses-per-word
 * Its gloses-per-morphem
 * The number of times each glose has been used in each language
+
+To do so, I created the following function:
+```python
+def used_glosses(morpheme, data):
+    used_gloss = defaultdict(list)
+    for _, row in data.iterrows():
+        if row[morpheme] is not np.nan:
+            for glose_list in list(row[morpheme]):
+                print(glose_list)
+                used_gloss[glose_list].append(row["lang"])
+    return(used_gloss)
+```
 
 My project will be about linguistic data. From a json, parsing the data we are interested in and performing informational statistics + creating new documents to store this data.
 
