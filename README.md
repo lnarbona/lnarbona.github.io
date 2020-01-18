@@ -25,25 +25,55 @@ Where:
 * **"tokenized_src_word"**, the token words present in the source *(Not present in this example)*
 * **"glose_word"**, the glose for each one of this words *(Not present in this example)*
 
-This file has been the one used for the ensuing analysis. 
+This file has been the one used for the ensuing analysis, importing it with the following code:
+```python
+import json
+import pandas as pd
+
+with open('pangloss.json', 'r') as json_file:
+    jsondata = json.load(json_file)[0]
+
+data = pd.DataFrame(jsondata)
+```
 
 ## <a name="parse"></a>First Parsing
-For the first steps of the parsing, I wanted to grab the following informations for each language:
+For the first steps of the parsing, I wanted to have a general view of the DataFrame, know how many phrases we had in total, and finally which languages and how many were we dealing with. To do so, I used the following code (and got the following output):
+```python
+# general view of the DataFrame
+df_general = data.count()
+
+# nb of phrases in total
+nb_phrases= data.shape[0]
+
+# nb lang
+nb_lang = data["lang"].nunique()
+
+# list of languages
+list_name_lang = data["lang"].unique() 
+```
+
+
+
+to grab the following informations for each language:
 * Its gloses-per-word
 * Its gloses-per-morphem
 * The number of times each glose has been used in each language
 
 To do so, I created the following function:
 ```python
-def used_glosses(morpheme, data):
+import numpy as np
+from collections import defaultdict
+
+def used_glosses(gloses, data):
     used_gloss = defaultdict(list)
     for _, row in data.iterrows():
-        if row[morpheme] is not np.nan:
+        if row[gloses] is not np.nan:
             for glose_list in list(row[morpheme]):
                 print(glose_list)
                 used_gloss[glose_list].append(row["lang"])
     return(used_gloss)
 ```
+Then, I applied this function
 
 My project will be about linguistic data. From a json, parsing the data we are interested in and performing informational statistics + creating new documents to store this data.
 
